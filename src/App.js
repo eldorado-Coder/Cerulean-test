@@ -2,6 +2,12 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const testing = "helo"
+  let isAllCpas = false;
+  if (testing == testing.toUpperCase()) {
+    isAllCpas = true;
+  }
+  console.log(isAllCpas);
   return (
     <div className="App">
       <header className="App-header">
