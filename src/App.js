@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import './App.css';
 
 function App() {
   const [points, setPoints] = useState(null)
-  const fakeTransactions = [120, 110, 80];
+  const fakeTransactions = useMemo(() => {return [120, 110, 80]}, []) ;
 
   useEffect(() => {
     const fetchTransactions = () => {
@@ -31,7 +31,7 @@ function App() {
     }
 
     getPoints();
-  }, fakeTransactions);
+  }, [fakeTransactions]);
 
   return (
     <div className="App">
