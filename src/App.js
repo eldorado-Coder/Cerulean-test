@@ -1,29 +1,47 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const testing = "helo"
-  let isAllCpas = false;
-  if (testing == testing.toUpperCase()) {
-    isAllCpas = true;
-  }
-  console.log(isAllCpas);
+  const [points, setPoints] = useState(null)
+  const fakeTransactions = [120, 110, 80];
+
+  useEffect(() => {
+    const fetchTransactions = () => {
+      return new Promise((resolve, reject) => {
+          fakeTransactions ? resolve(fakeTransactions): reject(console.error('error was happened while fetch transactions'));
+      })
+    }
+
+    const getPoints = async() => {
+      let sum = 0;
+      let points = [];
+      /** 
+       * To avoid callback hell I used await and async function 
+       */
+      const transactions = await fetchTransactions();
+      transactions.forEach(element => {
+        let point = 0;
+        if (element < 50) return;
+        else element > 100 ? point = (element - 100) * 2 + 50 : point = (element - 50);  
+        points.push(point);
+        sum += point;
+        points.push(sum);
+      });
+      setPoints(points);
+    }
+
+    getPoints();
+  }, fakeTransactions);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {fakeTransactions[0] && points &&
+        <span>
+          The monthly points for {fakeTransactions[0]}, {fakeTransactions[1]}, {fakeTransactions[2]} is {points[0]}, {points[1]}, {points[2]}.
+          &nbsp; Total points is {points[3]}
+        </span>
+        
+      }
     </div>
   );
 }
